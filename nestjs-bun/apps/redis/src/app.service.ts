@@ -96,33 +96,37 @@ export class AppService {
       throw new BadRequestException('sessionId is required');
     }
 
-    if (!payload?.userId?.trim()) {
+    const userId = payload?.userId;
+    if (typeof userId !== 'string' || !userId.trim()) {
       throw new BadRequestException('userId is required');
     }
 
+    const cartItems = payload?.cartItems;
     if (
-      payload.cartItems &&
-      !payload.cartItems.every((item) => typeof item === 'string')
+      cartItems !== undefined &&
+      (!Array.isArray(cartItems) ||
+        !cartItems.every((item) => typeof item === 'string'))
     ) {
       throw new BadRequestException('cartItems must be an array of strings');
     }
 
-    if (payload.metadata && !this.isStringRecord(payload.metadata)) {
+    const metadata = payload?.metadata;
+    if (metadata !== undefined && !this.isStringRecord(metadata)) {
       throw new BadRequestException(
         'metadata must be an object with string values',
       );
     }
 
-    const ttlSeconds = payload.ttlSeconds ?? DEFAULT_SESSION_TTL_SECONDS;
+    const ttlSeconds = payload?.ttlSeconds ?? DEFAULT_SESSION_TTL_SECONDS;
     if (!Number.isInteger(ttlSeconds) || ttlSeconds <= 0) {
       throw new BadRequestException('ttlSeconds must be a positive integer');
     }
 
     const session: SessionRecord = {
       sessionId,
-      userId: payload.userId,
-      cartItems: payload.cartItems ?? [],
-      metadata: payload.metadata ?? {},
+      userId,
+      cartItems: cartItems ?? [],
+      metadata: metadata ?? {},
       lastActiveAt: new Date().toISOString(),
     };
 
@@ -188,7 +192,11 @@ export class AppService {
     }
   }
 
-  private isStringRecord(value: Record<string, string>): boolean {
+  private isStringRecord(value: unknown): value is Record<string, string> {
+    if (typeof value !== 'object' || value === null || Array.isArray(value)) {
+      return false;
+    }
+
     return Object.values(value).every((item) => typeof item === 'string');
   }
 }

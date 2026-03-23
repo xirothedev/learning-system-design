@@ -94,4 +94,30 @@ describe('AppService', () => {
       appService.createSession('session-1', {}),
     ).rejects.toBeInstanceOf(BadRequestException);
   });
+
+  it('rejects non-string userIds', async () => {
+    await expect(
+      appService.createSession('session-1', {
+        userId: 123 as unknown as string,
+      }),
+    ).rejects.toBeInstanceOf(BadRequestException);
+  });
+
+  it('rejects non-array cartItems payloads', async () => {
+    await expect(
+      appService.createSession('session-1', {
+        userId: 'user-1',
+        cartItems: 'book' as unknown as string[],
+      }),
+    ).rejects.toBeInstanceOf(BadRequestException);
+  });
+
+  it('rejects invalid metadata payloads', async () => {
+    await expect(
+      appService.createSession('session-1', {
+        userId: 'user-1',
+        metadata: 123 as unknown as Record<string, string>,
+      }),
+    ).rejects.toBeInstanceOf(BadRequestException);
+  });
 });
