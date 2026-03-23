@@ -1,14 +1,20 @@
-# Redis Learning API
+# NestJS Bun Redis
 
-Monorepo Bun + Turborepo tối giản để học Redis với NestJS.
+A minimal Bun + Turborepo monorepo for learning Redis with NestJS.
 
-## Cấu trúc
+## Table of Contents
 
-- `apps/redis`: ứng dụng NestJS API được tạo bằng Nest CLI.
+- [Structure](#structure)
+- [Quick commands](#quick-commands)
+- [Next steps for learning Redis](#next-steps-for-learning-redis)
 
-## Lệnh dùng nhanh
+## Structure
 
-Chạy ở thư mục `nestjs-bun`:
+- `apps/redis`: a NestJS API app created with the Nest CLI.
+
+## Quick commands
+
+Run these from the `nestjs-bun` directory:
 
 ```sh
 bun run dev --filter=redis
@@ -17,15 +23,15 @@ bun run lint --filter=redis
 bun run check-types --filter=redis
 ```
 
-Hoặc chạy trực tiếp trong app:
+Or run the app directly:
 
 ```sh
 cd apps/redis
 bun run start:dev
 ```
 
-## Bước tiếp theo để học Redis
+## Next steps for learning Redis
 
-1. Cài Redis cục bộ hoặc dùng Docker.
-2. Thêm package như `ioredis` hoặc `@nestjs/cache-manager`.
-3. Tạo module riêng cho kết nối Redis và thử các case như cache, queue, rate limit, pub/sub.
+1. Install Redis locally or run it with Docker.
+2. Add packages such as `ioredis` or `@nestjs/cache-manager`.
+3. Build a dedicated Redis module and experiment with use cases such as caching, queues, rate limiting, and pub/sub.
