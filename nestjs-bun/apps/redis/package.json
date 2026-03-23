@@ -65,6 +65,9 @@
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
+    "moduleNameMapper": {
+      "^bun$": "<rootDir>/../test/mocks/bun.ts"
+    },
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],
